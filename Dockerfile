@@ -1,6 +1,6 @@
 FROM ubuntu:24.10
 
-RUN apt update --q && apt install -qq -y wget unzip && apt clean
+RUN apt update -qq && apt install -qq -y wget unzip && apt clean
 
 RUN wget -q https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2404-x86_64-100.12.1.deb
 RUN apt install -qq -y ./mongodb-database-tools-ubuntu2404-x86_64-100.12.1.deb
