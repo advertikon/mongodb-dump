@@ -1,6 +1,7 @@
 {
   "branches": [
     "master",
+    "main",
     {
       "name": "staging",
       "prerelease": "r"
@@ -35,6 +36,11 @@
         "branchesConfig": [
           {
             "pattern": "master",
+            "notifyOnSuccess": true,
+            "notifyOnFail": true
+          },
+          {
+            "pattern": "main",
             "notifyOnSuccess": true,
             "notifyOnFail": true
           },

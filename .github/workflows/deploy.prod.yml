@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - master
+      - main
 
 env:
   CACHE_NAME: cache-node-modules
