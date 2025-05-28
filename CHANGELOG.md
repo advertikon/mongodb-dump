@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/advertikon/mongodb-dump/compare/v1.0.2...v1.0.3) (2025-05-28)
+
+
+### Bug Fixes
+
+* fix deploy ([c63a40d](https://github.com/advertikon/mongodb-dump/commit/c63a40d03e0c3f41c380bb3768a211997494ec68))
+
 ## [1.0.2](https://github.com/advertikon/mongodb-dump/compare/v1.0.1...v1.0.2) (2025-05-28)
 
 

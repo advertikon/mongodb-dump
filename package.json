@@ -1,6 +1,6 @@
 {
   "name": "@bogochunas/mongodb-dump",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "dependencies": {
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/exec": "^7.1.0",
