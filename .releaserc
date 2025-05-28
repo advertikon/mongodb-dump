@@ -1,0 +1,50 @@
+{
+  "branches": [
+    "master",
+    {
+      "name": "staging",
+      "prerelease": "r"
+    }
+  ],
+  "repositoryUrl": "https://github.com/advertikon/mongodb-dump",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    [
+      "@semantic-release/npm",
+      {
+        "npmPublish": false
+      }
+    ],
+    "@semantic-release/changelog",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/git",
+    "@semantic-release/github",
+    [
+      "@semantic-release/exec",
+      {
+        "publishCmd": "./scripts/deploy.sh ${nextRelease.version}"
+      }
+    ],
+    [
+      "semantic-release-slack-bot",
+      {
+        "notifyOnSuccess": false,
+        "notifyOnFail": false,
+        "packageName": "mongodb-dump",
+        "markdownReleaseNotes": true,
+        "branchesConfig": [
+          {
+            "pattern": "master",
+            "notifyOnSuccess": true,
+            "notifyOnFail": true
+          },
+          {
+            "pattern": "staging",
+            "notifyOnSuccess": true,
+            "notifyOnFail": true
+          }
+        ]
+      }
+    ]
+  ]
+}

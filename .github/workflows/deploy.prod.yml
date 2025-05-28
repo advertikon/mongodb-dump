@@ -1,0 +1,80 @@
+name: Deploy
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  CACHE_NAME: cache-node-modules
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Versions
+        run: |
+          echo "Node $(node -v)"
+          echo "NPM $(npm -v)"
+
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+          kubectl version --client
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+
+      - name: Login to docker registry
+        run: |
+          docker login -u registry -p '${{ secrets.DOCKER_PASSWORD }}' '${{ secrets.DOCKER_REGISTRY }}'
+
+      - name: Fetch cached node modules
+        id: cache-npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.CACHE_NAME }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: Cache node modules
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Semantic Release
+        id: semantic
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          BRANCH: ${{ github.ref_name }}
+          IMAGE: "${{ secrets.DOCKER_REGISTRY }}/mongodb-dump"
+        run: npx semantic-release
+
+      - name: New version
+        run: echo ${{ steps.semantic.nextRelease.version }}
