@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/advertikon/mongodb-dump/compare/v1.0.0...v1.0.1) (2025-05-28)
+
+
+### Bug Fixes
+
+* make CI output less noisy ([3d33a62](https://github.com/advertikon/mongodb-dump/commit/3d33a6235abaf49a5ce497169eee595073af91b8))
+
 # 1.0.0 (2025-05-28)
 
 
