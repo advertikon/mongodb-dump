@@ -34,14 +34,6 @@ jobs:
           echo "Node $(node -v)"
           echo "NPM $(npm -v)"
 
-      - name: Install kubectl
-        run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-          kubectl version --client
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
-
       - name: Login to docker registry
         run: |
           docker login -u registry -p '${{ secrets.DOCKER_PASSWORD }}' '${{ secrets.DOCKER_REGISTRY }}'

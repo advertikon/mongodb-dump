@@ -28,7 +28,3 @@ docker push "$TAGGED"
 echo " ✔ Pushing latest image"
 docker tag "$TAGGED" "${IMAGE}:latest"
 docker push "${IMAGE}:latest"
-
-echo " ✔ Updating image in Kubernetes"
-kubectl --insecure-skip-tls-verify set image -n prod cronjob/mongodb-dump mongodb-dump="${IMAGE}:${PACKAGE_VERSION}"
-kubectl --insecure-skip-tls-verify rollout status cronjob/mongodb-dump -n prod

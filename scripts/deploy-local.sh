@@ -1,4 +1,22 @@
-echo "Building image..."
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo " ⛔  No command provided. Possible commands: backup, restore"
+    exit 1
+fi
+
+if [ "$1" != "backup" ] && [ "$1" != "restore" ]; then
+    echo " ⛔  Invalid command: $1. Possible commands: backup, restore"
+    exit 1
+fi
+
+if [ "$1" == "backup" ]; then
+    echo " ⏳  Building image for backup..."
+    COMMAND='./backup.sh'
+elif [ "$1" == "restore" ]; then
+    echo " ⏳  Building image for restore..."
+    COMMAND='./restore.sh'
+fi
 
 docker build -t mongodb-dump:latest  .
 
@@ -37,4 +55,4 @@ docker run --name mongodb-dump \
     --env AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
     --env AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
     --env AWS_REGION="$AWS_REGION" \
-	mongodb-dump:latest
+	mongodb-dump:latest "$COMMAND"

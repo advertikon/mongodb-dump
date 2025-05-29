@@ -11,6 +11,6 @@ RUN unzip -q awscliv2.zip
 RUN ./aws/install
 RUN rm -rf awscliv2.zip aws
 
-COPY ./scripts/backup.sh ./
+COPY scripts/backup.sh scripts/restore.sh ./
 
 CMD ["./backup.sh"]

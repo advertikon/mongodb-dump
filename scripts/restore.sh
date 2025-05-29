@@ -35,33 +35,44 @@ if [ -z "$S3_BUCKET" ]; then
     exit 1
 fi
 
+echo " ✔ Downloading backup from S3..."
+echo "Available backups:"
+aws s3 ls s3://mv-mongo-dump | awk '{print $4}'
+
+BACKUP=$(aws s3 ls s3://mv-mongo-dump | awk '{a[i++]=$4} END{print a[i-1]}')
+
+if [ -z "$BACKUP" ]; then
+    echo " ⛔  No backups found in S3. Exit"
+    exit 1
+fi
+
 if [ -d "./backup" ]; then
     rm -rf ./backup
     echo " ✔ Old backup directory removed."
 fi
 
 mkdir -p ./backup
-mongodump --uri="mongodb://$MONGODB_HOST" -u "$MONGODB_USER" -p "$MONGODB_PASSWORD" --gzip --archive="./mongo-local-backup-$(date +%Y-%m-%d_%H-%M-%S).gz"
+
+echo "Downloading backup: $BACKUP"
+aws s3 cp "s3://$S3_BUCKET/$BACKUP" ./backup/
 
 RESULT=$?
 
 if [ $RESULT -ne 0 ]; then
-    echo " ⛔  Backup failed. Exit"
-    exit $RESULT
-fi
-
-echo " ✔ Backup completed successfully."
-echo " ✔ Backup files:"
-ls -lh ./backup
-
-echo " ✔ Uploading backup to S3..."
-aws s3 cp ./backup "s3://$S3_BUCKET/" --recursive
-
-RESULT=$?
-
-if [ $RESULT -ne 0 ]; then
-    echo " ⛔  Upload to S3 failed. Exit"
+    echo " ⛔  Download from S3 failed. Exit"
     exit $RESULT
 else
-    echo " ✔ Backup uploaded to S3 successfully."
+    echo " ✔ Backup downloaded from S3 successfully."
 fi
+
+echo " ✔ Extracting backup..."
+mongorestore --uri="mongodb://$MONGODB_HOST" -u "$MONGODB_USER" -p "$MONGODB_PASSWORD" --gzip --archive="./backup/$BACKUP"
+
+RESULT=$?
+
+if [ $RESULT -ne 0 ]; then
+    echo " ⛔  Restore failed. Exit"
+    exit $RESULT
+fi
+
+echo " ✔ Restore completed successfully."
