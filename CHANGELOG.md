@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/advertikon/mongodb-dump/compare/v1.0.4...v1.1.0) (2025-05-29)
+
+
+### Features
+
+* add restore feature ([1f02b30](https://github.com/advertikon/mongodb-dump/commit/1f02b3029e1460b5da67cec9d63fd9e9a07651b9))
+
 ## [1.0.4](https://github.com/advertikon/mongodb-dump/compare/v1.0.3...v1.0.4) (2025-05-28)
 
 
