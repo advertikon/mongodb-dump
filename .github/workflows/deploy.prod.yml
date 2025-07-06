@@ -67,6 +67,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           BRANCH: ${{ github.ref_name }}
           IMAGE: "${{ secrets.DOCKER_REGISTRY }}/mongodb-dump"
+          SLACK_MESSAGES_WEBHOOK: ${{ secrets.SLACK_MESSAGES_WEBHOOK }}
         run: npx semantic-release
 
       - name: New version

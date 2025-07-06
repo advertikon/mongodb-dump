@@ -1,37 +1,52 @@
 #!/bin/env bash
 
+function notifySlack() {
+    if [ -n "$SLACK_MESSAGES_WEBHOOK" ]; then
+        curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$1\"}" "$SLACK_MESSAGES_WEBHOOK"
+    fi
+}
+
+notifySlack "[MongoDB dump]: 🤖 MongoDB Backup script started."
+
 if [ -z "$MONGODB_HOST" ]; then
     echo " ⛔  MONGODB_HOST variable is not set. Exit"
+    notifySlack "[MongoDB dump]: ⛔ MONGODB_HOST variable is not set. Exit"
     exit 1
 fi
 
 if [ -z "$MONGODB_USER" ]; then
     echo " ⛔  MONGODB_USER variable is not set. Exit"
+    notifySlack "[MongoDB dump]: ⛔ MONGODB_USER variable is not set. Exit"
     exit 1
 fi
 
 if [ -z "$MONGODB_PASSWORD" ]; then
     echo " ⛔  MONGODB_PASSWORD variable is not set. Exit"
+    notifySlack "[MongoDB dump]: ⛔ MONGODB_PASSWORD variable is not set. Exit"
     exit 1
 fi
 
 if [ -z "$AWS_ACCESS_KEY_ID" ]; then
     echo " ⛔  AWS_ACCESS_KEY_ID variable is not set. Exit"
+    notifySlack "[MongoDB dump]: ⛔ AWS_ACCESS_KEY_ID variable is not set. Exit"
     exit 1
 fi
 
 if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
     echo " ⛔  AWS_SECRET_ACCESS_KEY variable is not set. Exit"
+    notifySlack "[MongoDB dump]: ⛔ AWS_SECRET_ACCESS_KEY variable is not set. Exit"
     exit 1
 fi
 
 if [ -z "$AWS_REGION" ]; then
     echo " ⛔  AWS_REGION variable is not set. Exit"
+    notifySlack "[MongoDB dump]: ⛔ AWS_REGION variable is not set. Exit"
     exit 1
 fi
 
 if [ -z "$S3_BUCKET" ]; then
     echo " ⛔  S3_BUCKET variable is not set. Exit"
+    notifySlack "[MongoDB dump]: ⛔ S3_BUCKET variable is not set. Exit"
     exit 1
 fi
 
@@ -47,6 +62,7 @@ RESULT=$?
 
 if [ $RESULT -ne 0 ]; then
     echo " ⛔  Backup failed. Exit"
+    notifySlack "[MongoDB dump]: ⛔ Backup failed. Exit"
     exit $RESULT
 fi
 
@@ -59,6 +75,7 @@ echo " ✔ Number of backup files: $FILES_COUNT"
 
 if [ $FILES_COUNT -eq 0 ]; then
     echo " ⛔  No backup files created. Exit"
+    notifySlack "[MongoDB dump]: ⛔ No backup files created. Exit"
     exit 1
 fi
 
@@ -69,7 +86,9 @@ RESULT=$?
 
 if [ $RESULT -ne 0 ]; then
     echo " ⛔  Upload to S3 failed. Exit"
+    notifySlack "[MongoDB dump]: ⛔ Upload to S3 failed. Exit"
     exit $RESULT
-else
-    echo " ✔ Backup uploaded to S3 successfully."
 fi
+    
+echo " ✔ Backup uploaded to S3 successfully"
+notifySlack "[MongoDB dump]: 🍾 MongoDB Backup script completed successfully"
