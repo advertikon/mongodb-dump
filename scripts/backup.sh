@@ -41,7 +41,7 @@ if [ -d "./backup" ]; then
 fi
 
 mkdir -p ./backup
-mongodump --uri="mongodb://$MONGODB_HOST" -u "$MONGODB_USER" -p "$MONGODB_PASSWORD" --gzip --archive="./mongo-local-backup-$(date +%Y-%m-%d_%H-%M-%S).gz"
+mongodump --uri="mongodb://$MONGODB_HOST" -u "$MONGODB_USER" -p "$MONGODB_PASSWORD" --gzip --archive="./backup/mongo-local-backup-$(date +%Y-%m-%d_%H-%M-%S).gz"
 
 RESULT=$?
 
