@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/advertikon/mongodb-dump/compare/v1.1.2...v1.2.0) (2025-07-06)
+
+
+### Features
+
+* send to slack backup notifications ([6038b03](https://github.com/advertikon/mongodb-dump/commit/6038b0318a8343094a1441b717c3d9d120ed7ee4))
+
 ## [1.1.2](https://github.com/advertikon/mongodb-dump/compare/v1.1.1...v1.1.2) (2025-07-06)
 
 
