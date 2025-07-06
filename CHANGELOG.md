@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/advertikon/mongodb-dump/compare/v1.1.1...v1.1.2) (2025-07-06)
+
+
+### Bug Fixes
+
+* fail job if no backap files created ([bc28954](https://github.com/advertikon/mongodb-dump/commit/bc289543bb42ceacd5dd6fdf117f050d09fa4607))
+
 ## [1.1.1](https://github.com/advertikon/mongodb-dump/compare/v1.1.0...v1.1.1) (2025-07-06)
 
 
