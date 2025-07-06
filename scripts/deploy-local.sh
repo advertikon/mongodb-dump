@@ -55,4 +55,5 @@ docker run --name mongodb-dump \
     --env AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
     --env AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
     --env AWS_REGION="$AWS_REGION" \
+    --env SLACK_MESSAGES_WEBHOOK="$SLACK_MESSAGES_WEBHOOK" \
 	mongodb-dump:latest "$COMMAND"
