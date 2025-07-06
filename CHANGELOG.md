@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/advertikon/mongodb-dump/compare/v1.1.0...v1.1.1) (2025-07-06)
+
+
+### Bug Fixes
+
+* fix backup folder ([2d54111](https://github.com/advertikon/mongodb-dump/commit/2d5411169ccd69600285693af1f056753468087c))
+
 # [1.1.0](https://github.com/advertikon/mongodb-dump/compare/v1.0.4...v1.1.0) (2025-05-29)
 
 
