@@ -1,5 +1,11 @@
 #!/bin/env bash
 
+set -e
+
+DIR="$( cd "$( dirname "$0" )" && pwd )"
+cd "$DIR"/..
+. ./.env
+
 function notifySlack() {
     if [ -n "$SLACK_MESSAGES_WEBHOOK" ]; then
         curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$1\"}" "$SLACK_MESSAGES_WEBHOOK"

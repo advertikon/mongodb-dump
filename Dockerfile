@@ -11,6 +11,8 @@ RUN unzip -q awscliv2.zip
 RUN ./aws/install
 RUN rm -rf awscliv2.zip aws
 
+RUN echo "SLACK_MESSAGES_WEBHOOK=${SLACK_MESSAGES_WEBHOOK}" > ".env"
+
 COPY scripts/backup.sh scripts/restore.sh ./
 
 CMD ["./backup.sh"]
