@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/advertikon/mongodb-dump/compare/v1.2.0...v1.2.1) (2025-07-06)
+
+
+### Bug Fixes
+
+* SLACK_MESSAGES_WEBHOOK to .env ([a1e060a](https://github.com/advertikon/mongodb-dump/commit/a1e060a0e03da35a9e0fac8dc2292f55313b04a5))
+
 # [1.2.0](https://github.com/advertikon/mongodb-dump/compare/v1.1.2...v1.2.0) (2025-07-06)
 
 
