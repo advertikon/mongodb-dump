@@ -54,6 +54,14 @@ echo " ✔ Backup completed successfully."
 echo " ✔ Backup files:"
 ls -lh ./backup
 
+FILES_COUNT=$(ls ./backup | wc -l)
+echo " ✔ Number of backup files: $FILES_COUNT"
+
+if [ $FILES_COUNT -eq 0 ]; then
+    echo " ⛔  No backup files created. Exit"
+    exit 1
+fi
+
 echo " ✔ Uploading backup to S3..."
 aws s3 cp ./backup "s3://$S3_BUCKET/" --recursive
 
